@@ -1,0 +1,64 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Produto {
+    private String nome;
+    private double precoCusto;
+    private double impostos;
+    private double margemLucro;
+
+    public Produto(String nome, double precoCusto, double impostos, double margemLucro) {
+        this.nome = nome;
+        this.precoCusto = precoCusto;
+        this.impostos = impostos;
+        this.margemLucro = margemLucro;
+    }
+
+    public double calcularPrecoVenda() {
+        double precoSemImpostos = precoCusto / (1 - (impostos / 100));
+        double precoVenda = precoSemImpostos * (1 + (margemLucro / 100));
+        return precoVenda;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto: " + nome + "\nPreço de Custo: R$" + precoCusto + "\nImpostos (%): " + impostos + "\nMargem de Lucro (%): " + margemLucro + "\nPreço de Venda: R$" + calcularPrecoVenda() + "\n";
+    }
+}
+
+public class CalculoPrecoVenda {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Produto> listaProdutos = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Informe o nome do produto (ou digite 'sair' para encerrar): ");
+            String nome = scanner.nextLine();
+
+            if (nome.equalsIgnoreCase("sair")) {
+                break;
+            }
+
+            System.out.println("Informe o preço de custo do produto: ");
+            double precoCusto = scanner.nextDouble();
+            scanner.nextLine(); // Limpar o buffer
+
+            System.out.println("Informe a taxa de impostos sobre o produto (%): ");
+            double impostos = scanner.nextDouble();
+            scanner.nextLine(); // Limpar o buffer
+
+            System.out.println("Informe a margem de lucro desejada (%): ");
+            double margemLucro = scanner.nextDouble();
+            scanner.nextLine(); // Limpar o buffer
+
+            Produto produto = new Produto(nome, precoCusto, impostos, margemLucro);
+            listaProdutos.add(produto);
+        }
+
+        System.out.println("\nLista de Produtos e Preços de Venda:");
+        for (Produto produto : listaProdutos) {
+            System.out.println(produto);
+        }
+    }
+}
